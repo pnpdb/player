@@ -10,8 +10,12 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "iview": "^3.0.0",
+    "storejs": "^1.0.19",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "webpack-cli": "^3.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
