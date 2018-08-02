@@ -35,7 +35,6 @@ export default {
                 return;
             }
             let response = await login(data);
-            console.log(response);
             let mes = response.data.meta.message;
             if(response.data.meta.code === 0){
                 this.error = false;
