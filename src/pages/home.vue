@@ -18,7 +18,7 @@
                     <div>
                         <b>{{item.customerName}}</b>
                         <span>刺激战场{{item.platform}}区</span>
-                        <label><i>￥{{item.totalPrice/10}}</i> / {{item.duration}}小时</label>
+                        <label><i>￥{{item.totalPrice/100}}</i> / {{item.duration}}小时</label>
                     </div>
                     <button type="button" @click="doReceiptOrder(item)" v-if="complateTime !== ''">接单</button>
                 </div>
