@@ -6,7 +6,7 @@
             <button type="button" @click="doChangeStatus">{{status === 0 ? '正在线上接单' : '正在离线休息'}}</button>
             <router-link :to="{name: 'order'}">订单列表 &rsaquo;&rsaquo;</router-link>
         </div>
-        <div class="offline" v-if="status">
+        <div class="offline" v-if="status && createDate">
             <p>你错过了{{createDate}}的一个订单</p>
             <p>自动切换为离线休息状态</p>
         </div>
