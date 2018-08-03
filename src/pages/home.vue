@@ -18,9 +18,9 @@
                     <div>
                         <b>{{item.customerName}}</b>
                         <span>刺激战场{{item.platform}}区</span>
-                        <label><i>￥{{item.totalPrice/10}}</i> / {{item.duration}}小时</label>
+                        <label><i>￥{{item.totalPrice/100}}</i> / {{item.duration}}小时</label>
                     </div>
-                    <button type="button" @click="doReceiptOrder(item)">接单</button>
+                    <button type="button" @click="doReceiptOrder(item)" v-if="complateTime !== ''">接单</button>
                 </div>
                 <p class="p" v-if="item.orderId === orderId">订单完成后可以切换为线上接单状态<br>预计完成时间<span>{{complateTime}}</span></p>
             </li>
@@ -46,14 +46,15 @@ export default {
             orders: [],
             orderId: null,
             createDate: '',
-            showNull: false
+            showNull: false,
+            complateTime: ''
         }
     },
     mounted: function () {
         this.getPlayerInfo();
         setTimeout( function () {
             this.getPlayerInfo();
-        },3*1000*60)
+        },3*1000*60);
     },
     methods: {
         // 获取订单列表
@@ -94,10 +95,10 @@ export default {
             }
         },
         // 计算完成时间
-        countTime: function (item) {
-            let complateTime = new Date(item.createDate) + item.duration*3600*1000 + 15*60*1000;
+        countTime: function () {
+            let complateTime = Date.parse(new Date(item.createDate)) + item.duration*3600*1000 + 15*60*1000;
             let date = new Date(complateTime);
-            return date.getHours + ':' + date.getMinutes;
+            this.complateTime = date.getHours() + ':' + date.getMinutes();
         },
         // 陪玩切换状态
         doChangeStatus: async function () {
