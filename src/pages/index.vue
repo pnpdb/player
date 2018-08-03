@@ -21,8 +21,8 @@ import {login} from "@/api/api";
 export default {
     data: function () {
         return {
-            account: 'abc',
-            password: '123456',
+            account: '',
+            password: '',
             error: false,
             errorMes: '帐号或者密码不能为空'
         }
