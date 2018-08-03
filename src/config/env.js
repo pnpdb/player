@@ -8,18 +8,15 @@
  *
  */
 let baseURL = '';
-let baseImageURL = '';
 
 let routerMode = 'history';
 
 if (process.env.NODE_ENV === 'development') {
-//   baseURL = 'http://192.168.2.233:8080/api';
   baseURL = 'http://192.168.2.121:8080/api';
-  baseImageURL = '';
 } else {
-  baseImageURL = 'http://127.0.0.1:8080/api';
+  baseURL = 'https://df.evtape.com/api';
 }
 
 export {
-  baseURL, routerMode, baseImageURL
+  baseURL, routerMode
 }
