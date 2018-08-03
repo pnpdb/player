@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === 'development') {
   baseURL = 'http://192.168.2.121:8080/api';
   baseImageURL = '';
 } else {
-  baseImageURL = 'https://df.evtape.com/api';
+  baseImageURL = 'http://127.0.0.1:8080/api';
 }
 
 export {
