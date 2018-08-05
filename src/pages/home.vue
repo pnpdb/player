@@ -53,16 +53,15 @@ export default {
     },
     mounted: function () {
         this.getPlayerInfo();
-        setTimeout( function () {
-            this.getPlayerInfo();
-        },3*1000*60);
+        // setTimeout( function () {
+        //     this.getPlayerInfo();
+        // },3*1000*60);
     },
     methods: {
         // 获取订单列表
         getPlayerInfo: async function () {
-            this.$Message.success('fdfa')
+            this.showNull = false;
             let response = await getInfo();
-            
             let data = response.data;
             if(response.data.code === 0){
                 let status = data.status.data;
@@ -92,18 +91,9 @@ export default {
             }
             let response = await receiptOrder(data);
             if(response.data.meta.code === 0){
-                this.countTime(item);
                 this.status = 1;
+                this.complateTime = response.data.data;
             }
-        },
-        // 计算完成时间
-        countTime: function (item) {
-            if(!item.createDate){
-                return;
-            }
-            let complateTime = Date.parse(new Date(item.createDate)) + item.duration*3600*1000 + 15*60*1000;
-            let date = new Date(complateTime);
-            this.complateTime = date.getHours() + ':' + date.getMinutes();
         },
         // 陪玩切换状态
         doChangeStatus: async function () {

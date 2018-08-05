@@ -12,8 +12,8 @@ let baseURL = '';
 let routerMode = 'history';
 
 if (process.env.NODE_ENV === 'development') {
-    baseURL = 'https://df.evtape.com/api';
-//   baseURL = 'http://192.168.2.121:8080/api';
+    // baseURL = 'https://df.evtape.com/api';
+  baseURL = 'http://192.168.2.233:8080/api';
 } else {
   baseURL = 'https://df.evtape.com/api';
 }
