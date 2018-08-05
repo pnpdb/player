@@ -21,7 +21,7 @@
                         <span>刺激战场{{item.platform}}区</span>
                         <label><i>￥{{item.totalPrice/100}}</i> / {{item.duration}}小时</label>
                     </div>
-                    <button type="button" @click="doReceiptOrder(item)" w-if="complateTime === ''">接单</button>
+                    <button type="button" @click="doReceiptOrder(item)" v-if="complateTime === ''">接单</button>
                 </div>
                 <p class="p" v-if="item.orderId === orderId">订单完成后可以切换为线上接单状态<br>预计完成时间<span>{{complateTime}}</span></p>
             </li>
@@ -93,10 +93,14 @@ export default {
             let response = await receiptOrder(data);
             if(response.data.meta.code === 0){
                 this.countTime(item);
+                this.status = 1;
             }
         },
         // 计算完成时间
         countTime: function (item) {
+            if(!item.createDate){
+                return;
+            }
             let complateTime = Date.parse(new Date(item.createDate)) + item.duration*3600*1000 + 15*60*1000;
             let date = new Date(complateTime);
             this.complateTime = date.getHours() + ':' + date.getMinutes();
