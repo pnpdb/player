@@ -3,7 +3,8 @@
         <div class="info">
             <img class="logo" :src="player.avatorUrl" alt="">
             <p class="playerName">{{player.name}} <span>陪玩</span></p>
-            <button type="button" @click="doChangeStatus">{{status === 0 ? '正在线上接单' : '正在离线休息'}}</button>
+            <button class="onlineBtn" type="button" @click="doChangeStatus" v-if="status === 0">正在线上接单</button>
+            <button class="offlineBtn" type="button" @click="doChangeStatus" v-else>正在离线休息</button>
             <router-link :to="{name: 'order'}">订单列表 &rsaquo;&rsaquo;</router-link>
         </div>
         <div class="offline" v-if="status && createDate">
@@ -20,7 +21,7 @@
                         <span>刺激战场{{item.platform}}区</span>
                         <label><i>￥{{item.totalPrice/100}}</i> / {{item.duration}}小时</label>
                     </div>
-                    <button type="button" @click="doReceiptOrder(item)" v-if="complateTime !== ''">接单</button>
+                    <button type="button" @click="doReceiptOrder(item)" w-if="complateTime === ''">接单</button>
                 </div>
                 <p class="p" v-if="item.orderId === orderId">订单完成后可以切换为线上接单状态<br>预计完成时间<span>{{complateTime}}</span></p>
             </li>
@@ -95,7 +96,7 @@ export default {
             }
         },
         // 计算完成时间
-        countTime: function () {
+        countTime: function (item) {
             let complateTime = Date.parse(new Date(item.createDate)) + item.duration*3600*1000 + 15*60*1000;
             let date = new Date(complateTime);
             this.complateTime = date.getHours() + ':' + date.getMinutes();
