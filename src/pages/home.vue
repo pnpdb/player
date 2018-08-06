@@ -1,7 +1,8 @@
 <template>
     <div class="container home">
         <div class="info">
-            <img class="logo" :src="player.avatorUrl" alt="">
+            <img class="logo" :src="player.avatorUrl" alt="" v-if="player.avatorUrl">
+            <span class="logo" v-else></span>
             <p class="playerName">{{player.name}} <span>陪玩</span></p>
             <button class="onlineBtn" type="button" @click="duGetStatus" v-if="status === 0">正在线上接单</button>
             <button class="offlineBtn" type="button" @click="duGetStatus" v-else>正在离线休息</button>

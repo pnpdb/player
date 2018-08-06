@@ -40,9 +40,11 @@ ul {
 }
 .container .logo {
   width: 60px;
+  height: 60px;
   margin: 0 auto;
   display: block;
   border-radius: 30px;
+  background: #f5aa2b;
 }
 .container .slogan {
   margin-top: 20px;
