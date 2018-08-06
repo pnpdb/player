@@ -3,8 +3,8 @@
         <div class="info">
             <img class="logo" :src="player.avatorUrl" alt="">
             <p class="playerName">{{player.name}} <span>陪玩</span></p>
-            <button class="onlineBtn" type="button" @click="doChangeStatus" v-if="status === 0">正在线上接单</button>
-            <button class="offlineBtn" type="button" @click="doChangeStatus" v-else>正在离线休息</button>
+            <button class="onlineBtn" type="button" @click="duGetStatus" v-if="status === 0">正在线上接单</button>
+            <button class="offlineBtn" type="button" @click="duGetStatus" v-else>正在离线休息</button>
             <router-link :to="{name: 'order'}">订单列表 &rsaquo;&rsaquo;</router-link>
         </div>
         <div class="offline" v-if="status && createDate">
@@ -21,9 +21,9 @@
                         <span>刺激战场{{item.platform}}区</span>
                         <label><i>￥{{item.totalPrice/100}}</i> / {{item.duration}}小时</label>
                     </div>
-                    <button type="button" @click="doReceiptOrder(item)" v-if="complateTime === ''">接单</button>
+                    <button type="button" @click="doReceiptOrder(item)" v-if="!item.receiptDate">接单</button>
                 </div>
-                <p class="p" v-if="item.orderId === orderId">订单完成后可以切换为线上接单状态<br>预计完成时间<span>{{complateTime}}</span></p>
+                <p class="p" v-if="item.receiptDate">订单完成后可以切换为线上接单状态<br>预计完成时间<span>{{countTime(item)}}</span></p>
             </li>
         </ul>
         <div class="null" v-show="showNull">
@@ -34,12 +34,12 @@
 </template>
 
 <script>
-import {getInfo, receiptOrder, changeStatus} from "@/api/api";
+import {getInfo, receiptOrder, changeStatus, getStatus} from "@/api/api";
 export default {
     data: function () {
         return {
-            account: 'abc',
-            password: '123456',
+            account: '',
+            password: '',
             error: false,
             errorMes: '帐号或者密码不能为空',
             player: {},
@@ -62,21 +62,20 @@ export default {
         getPlayerInfo: async function () {
             this.showNull = false;
             let response = await getInfo();
-            let data = response.data;
-            if(response.data.code === 0){
-                let status = data.status.data;
+            if(response.code === 0){
+                let status = response.status.data;
                 this.status = status;
-                this.player = data;
-                if(status){
-                    this.createDate = data.createDate;
+                this.player = response;
+                if(status === 1){
+                    this.createDate = response.createDate;
                     this.orders = [];
-                    if(!data.createDate){
+                    if(!response.createDate){
                         this.showNull = true;
                     }
                 } else {
-                    this.orders = data.orders;
+                    this.orders = response.orders;
                     this.createDate === '';
-                    if(data.orders.length === 0){
+                    if(response.orders.length === 0){
                         this.showNull = true;
                     }
                 }
@@ -90,9 +89,8 @@ export default {
                 orderId: item.orderId
             }
             let response = await receiptOrder(data);
-            if(response.data.meta.code === 0){
-                this.status = 1;
-                this.complateTime = response.data.data;
+            if(response.meta.code === 0){
+                this.getPlayerInfo();
             }
         },
         // 陪玩切换状态
@@ -102,9 +100,28 @@ export default {
                 status: status
             };
             let response = await changeStatus(data);
-            if(response.data.meta.code === 0){
-                this.status = status;
+            if(response.meta.code === 0){
                 this.getPlayerInfo();
+            }
+        },
+        // 计算预计完成时间
+        countTime: function (item) {
+            let timestamp = Date.parse(new Date(item.receiptDate)) + item.duration*3600*1000 + 15*60*1000;
+            let date = new Date(timestamp);
+            let hours = date.getHours();
+            let minute = date.getMinutes(); 
+            return (hours < 10 ? '0' + hours : hours) + ':' + (minute < 10 ? '0' + minute : minute);
+        },
+        // 获取陪玩状态
+        duGetStatus: async function () {
+            let response = await getStatus();
+            if(response.meta.code === 0){
+                this.status = response.data;
+                if(this.status === 2){
+                    this.$toast('当前正在游戏中，不可切换状态');
+                    return;
+                }
+                this.doChangeStatus();
             }
         }
     }

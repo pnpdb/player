@@ -3,6 +3,9 @@ import fetch from '@/config/fetch';
 /** 登录 */
 export const login = data => fetch('/session/player', data, 'POST');
 
+/** 获取陪玩状态 */
+export const getStatus = () => fetch('/player/status', {}, 'GET');
+
 /** 获取陪玩信息 */
 export const getInfo = () => fetch('/order/player', {}, 'GET');
 

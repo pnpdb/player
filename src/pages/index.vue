@@ -35,10 +35,10 @@ export default {
                 return;
             }
             let response = await login(data);
-            let mes = response.data.meta.message;
-            if(response.data.meta.code === 0){
+            let mes = response.meta.message;
+            if(response.meta.code === 0){
                 this.error = false;
-                this.$store.set('player', response.data.data)
+                this.$store.set('player', response.data)
                 this.$router.push({name: 'index'});
                 return;
             }

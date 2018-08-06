@@ -308,3 +308,29 @@ button {
 .info {
   padding-bottom: 20px;
 }
+.toast {
+  position: fixed;
+  width: 300px;
+  line-height: 30px;
+  padding: 5px;
+  border-radius: 5px;
+  color: #ff5252;
+  background: rgba(0, 0, 0, 0.5);
+  left: 50%;
+  margin-left: -150px;
+  top: 100px;
+  animation: toast 3s;
+  text-align: center;
+}
+@keyframes toast {
+  from {
+    filter: alpha(opacity=100);
+    -moz-opacity: 1;
+    opacity: 1;
+  }
+  to {
+    filter: alpha(opacity=0);
+    -moz-opacity: 0;
+    opacity: 0;
+  }
+}

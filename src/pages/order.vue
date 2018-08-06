@@ -5,7 +5,7 @@
             {{total}}个接单记录</p>
         <ul class="orderList">
             <li v-for="(item, index) in orders" :key="index">
-                <p>今天 15:30:26</p>
+                <p>{{item.createDate}}</p>
                 <div class="info">
                     <img class="photo" :src="item.avatorUrl">
                     <div>
@@ -45,15 +45,15 @@ export default {
                 num: 20
             }
             let response = await getHistoryOrder(data);
-            if(response.data.code === 0){
-                for(let obj of response.data.orders){
+            if(response.code === 0){
+                for(let obj of response.orders){
                     this.orders.push(obj);
                 }
                 this.beginNo = this.orders.length - 1;
-                this.total = response.data.total;
+                this.total = response.total;
                 return;
             }
-            this.$Message.error('加载订单失败');
+            this.$toast('加载订单失败');
         }
     }
 }

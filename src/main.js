@@ -6,10 +6,12 @@ import router from './router';
 import './assets/css/style.css';
 import store from 'storejs';
 import iView from 'iview';
+import toast from './utils/toast';
 Vue.use(iView);
 
 Vue.config.productionTip = false;
 Vue.prototype.$store = store;
+Vue.prototype.$toast = toast;
 
 /* eslint-disable no-new */
 new Vue({

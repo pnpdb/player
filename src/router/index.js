@@ -6,13 +6,13 @@ import order from '@/pages/order'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
     mode: 'history',
     routes: [
         {
-        path: '/',
-        name: 'login',
-        component: login
+            path: '/',
+            name: 'login',
+            component: login
         },
         {
             path: '/home',
@@ -23,6 +23,12 @@ export default new Router({
             path: '/order',
             name: 'order',
             component: order
+        },
+        {
+            path: '/*',
+            component: login
         }
     ]
 })
+
+export default router;
